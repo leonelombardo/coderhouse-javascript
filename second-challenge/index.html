@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="./script.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+    <title>RAPPER CALCULATOR &reg;</title>
+</head>
+<body>
+    <div id="app">
+        <form class="form">
+            <fieldset class="fieldset">
+                <legend class="legend">¿De qué color es tu piel?</legend>
+                <label for="black" class="label">
+                    <input type="radio" id="black" value="black" name="skin-tone" class="input-radio-skin-tone input-radio">Negra
+                </label>
+                <label for="white" class="label">
+                    <input type="radio" id="white" value="white" name="skin-tone" class="input-radio-skin-tone input-radio">Blanca
+                </label>
+            </fieldset>
+            <fieldset class="fieldset">
+                <legend class="legend">¿De qué país eres?</legend>
+                <label for="us" class="label">
+                    <input type="radio" id="us" value="us" name="nationality" class="input-radio-nationality input-radio">US
+                </label>
+                <label for="uk" class="label">
+                    <input type="radio" id="uk" value="uk" name="nationality" class="input-radio-nationality input-radio">UK
+                </label>
+                <label for="fr" class="label">
+                    <input type="radio" id="fr" value="fr" name="nationality" class="input-radio-nationality input-radio">FR
+                </label>
+            </fieldset>
+            <button type="submit" id="submit-button" class="primary-button">Send</button>
+        </form>
+        <div class="modal" id="modal">
+            <div class="result">
+                <h2 class="result-text" id="result"></h2>
+                <button type="button" id="close-modal" class="primary-button">Ok</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
