@@ -40,7 +40,7 @@ form.addEventListener("submit", (e) => {
     }
 
     if(brandSelected.length < 1 || !filterSelected){
-        return alert("Por favor completa el formulario.")
+        return alert("Debes completar el formulario para realizar una búsqueda.")
     }
 
     const filterBrands = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() ? product : '')).reduce((a,b) => [...a, ...b]);
@@ -88,5 +88,5 @@ form.addEventListener("submit", (e) => {
         `})
     }
 
-    createHtml();
+    return createHtml();
 })
