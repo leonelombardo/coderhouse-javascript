@@ -1,7 +1,115 @@
-const html = document.querySelector("#result");
-const brands = document.getElementsByName("brand");
-const filter = document.getElementsByName("filter");
-const form = document.querySelector("#form");
+const html = document.querySelector("#result")
+const brands = document.getElementsByName("brand")
+const filter = document.getElementsByName("filter")
+const form = document.querySelector("#form")
+const cart = document.querySelector("#cart")
+const cartProductsContainer = document.querySelector("#cart-products-container")
+const cartProducts = document.querySelector("#cart-products")
+const cartTotal = document.querySelector("#cart-total")
+
+let storedProducts = localStorage.getItem("productsInCart") ? JSON.parse(localStorage.getItem("productsInCart")) : []
+
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-AR', {style: 'currency',currency: 'ARS', minimumFractionDigits: 2}).format(price)
+}
+
+Notification.requestPermission()
+
+const addToCart = (id) => {
+    const addedProduct = products.find(product => product.id === id);
+    const message = `¡Añadiste ${addedProduct.name} al carrito!`
+
+    if(!("Notification" in window)){
+        alert(message)
+    }
+    
+    const notification = new Notification(message)
+
+    setTimeout(()=> {
+        notification.close()
+    }, 2500)
+
+    storedProducts = [...storedProducts, addedProduct]
+    storedProducts = storedProducts.reduce((acc, elem) => {
+        const repeated = acc.find(e => e.id === elem.id)
+        if(repeated){
+            return [...acc]
+        }else{
+            return [...acc, elem]
+        }
+    }, [])
+
+    localStorage.setItem("productsInCart", JSON.stringify(storedProducts))
+}
+
+const productCheckout = (id) => {
+    const acquiredProduct = products.find(product => product.id === id);
+    const message = `¡Gracias por adquirir ${acquiredProduct.name}!`
+
+    if(!("Notification" in window)){
+        alert(message)
+    }
+    
+    const notification = new Notification(message)
+
+    setTimeout(()=> {
+        notification.close()
+    }, 2500)
+
+    storedProducts = storedProducts.filter(product => product.id === id ? '' : product)
+    localStorage.setItem("productsInCart", JSON.stringify(storedProducts))
+}
+
+const getAllProducts = () => {
+    if(!("Notification" in window)){
+        alert(message)
+    }
+    
+    const notification = new Notification('¡Adquiriste todos tus productos!')
+
+    setTimeout(()=> {
+        notification.close()
+    }, 2500)
+
+    storedProducts = []
+    localStorage.setItem("productsInCart", storedProducts)
+}
+
+const renderCart = () => {
+    cartProductsContainer.classList.toggle("open")
+    cartProducts.innerHTML = ''
+
+    const totalPrice = storedProducts.reduce((acc, elem) => acc + elem.price , 0)
+
+    storedProducts.length > 0
+        ? storedProducts.map(product => {
+            cartProducts.innerHTML +=
+            `
+            <div class="cart-product">
+                <img src="${product.img}" class="cart-product-img"/>
+                <div class="cart-product-data">
+                    <h4 class="cart-product-name">${product.name}</h4>
+                    <p class="cart-product-price">${formatPrice(product.price)}</p>
+                </div>
+                <button class="primary-button cart-button" onclick="productCheckout(${product.id})")>Realizar compra</button>
+            </div>
+            <div class="cart-total">
+                
+            </div>
+            `
+            
+            cartTotal.innerHTML = `
+            <p class="cart-total-price">${formatPrice(totalPrice)}</p>
+            <button class="primary-button cart-button" onclick="getAllProducts()">Comprar todo</button>
+            `
+        })
+        : (
+            cartProducts.innerHTML = '<p class="empty-cart-text">¡Aún no añadiste ningún producto!</p>',
+            cartTotal.innerHTML = ``
+        )
+}
+
+cart.addEventListener("click", renderCart)
 
 const products = [
     { id: 1, name: 'MACBOOK PRO 16" APPLE M1 PRO CHIP 10-CORE CPU 16-CORE GPU - 1TB SSD - SILVER', brand:'apple', price: 720000, img: 'https://i.ibb.co/sgy3RmQ/MK1-F3-LEA-1.jpg'},
@@ -42,6 +150,7 @@ form.addEventListener("submit", (e) => {
     if(brandSelected.length < 1 || !filterSelected){
         return alert("Debes completar el formulario para realizar una búsqueda.")
     }
+    const array = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() ? product : ''))
 
     const filterBrands = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() ? product : '')).reduce((a,b) => [...a, ...b]);
 
@@ -71,22 +180,20 @@ form.addEventListener("submit", (e) => {
         }
     })
 
-    const formatPrice = (price) => {
-        return new Intl.NumberFormat('es-AR', {style: 'currency',currency: 'ARS', minimumFractionDigits: 2}).format(price)
-    }
-
     const createHtml = () => {
         return filteredProducts.map(product => {
             html.innerHTML += `
             <div class="product-card" id="product-${product.id}">
                 <img src="${product.img}" alt="${product.name}" role="product-image" aria-label="product-image" loading="lazy" class="product-img"/>
-                <div class="product-data">
-                    <h2 class="product-name">${product.name.toUpperCase()}</h2>
-                    <span class="product-price">${formatPrice(product.price)}</span>
+                <div class="product-data-ctn">
+                    <div class="product-data">
+                        <h2 class="product-name">${product.name.toUpperCase()}</h2>
+                        <span class="product-price">${formatPrice(product.price)}</span>
+                    </div>
+                    <button class="primary-button" onclick="addToCart(${product.id})">Agregar al carrito</button>
                 </div>
             </div>
         `})
     }
-
     return createHtml();
 })

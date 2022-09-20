@@ -4,45 +4,65 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/phosphor-icons"></script>
     <script defer src="./script.js"></script>
-    <link rel="stylesheet" href="./style.css"/>
-    <title>TechTech &copy;</title>
+    <link rel="stylesheet" href="./css/style.css"/>
+    <title>TechTech &reg;</title>
   </head>
   <body>
     <div id="root">
-        <form id="form">
-            <div class="form-brand">
-                <h2 class="form-label">Marca</h2>
-                <div class="brand-options">
-                    <label class="input-label">
-                        <input type="checkbox" value="apple" name="brand" class="input-checkbox"/> Apple
-                    </label>
-                    <label class="input-label">
-                        <input type="checkbox" value="msi" name="brand" class="input-checkbox"/> MSI
-                    </label>
-                    <label class="input-label">
-                        <input type="checkbox" value="asus" name="brand" class="input-checkbox"/> Asus
-                    </label>
-                    <label class="input-label">
-                        <input type="checkbox" value="hp" name="brand" class="input-checkbox"/> HP
-                    </label>
-                    <label class="input-label">
-                        <input type="checkbox" value="lenovo" name="brand" class="input-checkbox"/> Lenovo
-                    </label>
+        <header id="header">
+            <nav id="nav">
+                <h2 class="logo">TechTech</h2>
+                <button class="cart" id="cart">
+                    <i class="ph-shopping-cart-simple cart-icon"></i>
+                    
+                    <div class="cart-products-container" id="cart-products-container">
+                        <div class="cart-products" id="cart-products">
+                        
+                        </div>
+                        <div class="cart-total" id="cart-total">
+
+                        </div>
+                    </div>
+                </button>
+            </nav>
+        </header>
+        <main>
+            <form id="form">
+                <div class="form-brand">
+                    <h2 class="form-label">Marca</h2>
+                    <div class="brand-options">
+                        <label class="input-label">
+                            <input type="checkbox" value="apple" name="brand" class="input-checkbox"/> Apple
+                        </label>
+                        <label class="input-label">
+                            <input type="checkbox" value="msi" name="brand" class="input-checkbox"/> MSI
+                        </label>
+                        <label class="input-label">
+                            <input type="checkbox" value="asus" name="brand" class="input-checkbox"/> Asus
+                        </label>
+                        <label class="input-label">
+                            <input type="checkbox" value="hp" name="brand" class="input-checkbox"/> HP
+                        </label>
+                        <label class="input-label">
+                            <input type="checkbox" value="lenovo" name="brand" class="input-checkbox"/> Lenovo
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-filters">
-                <h2 class="form-label">Filtros</h2>
-                <select id="filters">
-                    <option value="Selecciona una opción" disabled selected>Filtrar por:</option>
-                    <option value="menor-mayor" name="filter">Menor a mayor precio</option>
-                    <option value="mayor-menor" name="filter">Mayor a menor precio</option>
-                    <option value="a-z" name="filter">Nombre A-Z</option>
-                    <option value="z-a" name="filter">Nombre Z-A</option>
-                </select>
-            </div>
-            <button type="submit" class="primary-button" id="submit-form">Buscar</button>
-        </form>
+                <div class="form-filters">
+                    <h2 class="form-label">Filtros</h2>
+                    <select id="filters">
+                        <option value="Selecciona una opción" disabled selected>Filtrar por:</option>
+                        <option value="menor-mayor" name="filter">Menor a mayor precio</option>
+                        <option value="mayor-menor" name="filter">Mayor a menor precio</option>
+                        <option value="a-z" name="filter">Nombre A-Z</option>
+                        <option value="z-a" name="filter">Nombre Z-A</option>
+                    </select>
+                </div>
+                <button type="submit" class="primary-button" id="submit-form">Buscar</button>
+            </form>
+        </main>
         <div id="result">
             <!-- render -->
         </div>
