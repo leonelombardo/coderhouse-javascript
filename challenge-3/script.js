@@ -13,21 +13,24 @@ const formatPrice = (price) => {
     return new Intl.NumberFormat('es-AR', {style: 'currency',currency: 'ARS', minimumFractionDigits: 2}).format(price)
 }
 
-Notification.requestPermission()
+const createNotification = (text) => {
+    Toastify({
+        text: text,
+        className: "notification",
+        position: "right",
+        gravity: "bottom",
+        duration: 1000,
+        style: {
+            background: "#06f"
+        }
+      }).showToast();
+} 
 
 const addToCart = (id) => {
     const addedProduct = products.find(product => product.id === id);
-    const message = `¡Añadiste ${addedProduct.name} al carrito!`
+    const message = `¡Añadiste ${addedProduct.name.toUpperCase()} al carrito! 😎✔️`
 
-    if(!("Notification" in window)){
-        alert(message)
-    }
-    
-    const notification = new Notification(message)
-
-    setTimeout(()=> {
-        notification.close()
-    }, 2500)
+    createNotification(message)
 
     storedProducts = [...storedProducts, addedProduct]
     storedProducts = storedProducts.reduce((acc, elem) => {
@@ -44,33 +47,16 @@ const addToCart = (id) => {
 
 const productCheckout = (id) => {
     const acquiredProduct = products.find(product => product.id === id);
-    const message = `¡Gracias por adquirir ${acquiredProduct.name}!`
+    const message = `¡Gracias por adquirir ${acquiredProduct.name} 🤑🔥!`
 
-    if(!("Notification" in window)){
-        alert(message)
-    }
-    
-    const notification = new Notification(message)
-
-    setTimeout(()=> {
-        notification.close()
-    }, 2500)
+    createNotification(message)
 
     storedProducts = storedProducts.filter(product => product.id === id ? '' : product)
     localStorage.setItem("productsInCart", JSON.stringify(storedProducts))
 }
 
 const getAllProducts = () => {
-    if(!("Notification" in window)){
-        alert(message)
-    }
-    
-    const notification = new Notification('¡Adquiriste todos tus productos!')
-
-    setTimeout(()=> {
-        notification.close()
-    }, 2500)
-
+    createNotification('¡Adquiriste todos los productos! 🤯🚀')
     storedProducts = []
     localStorage.setItem("productsInCart", storedProducts)
 }
@@ -150,9 +136,9 @@ form.addEventListener("submit", (e) => {
     if(brandSelected.length < 1 || !filterSelected){
         return alert("Debes completar el formulario para realizar una búsqueda.")
     }
-    const array = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() ? product : ''))
+    const array = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() && product))
 
-    const filterBrands = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() ? product : '')).reduce((a,b) => [...a, ...b]);
+    const filterBrands = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() && product)).reduce((a,b) => [...a, ...b]);
 
     const filteredProducts = filterBrands.sort((a, b) => {
         if(filterSelected.value === "menor-mayor"){
