@@ -115,6 +115,20 @@ const products = [
     { id: 15, name: 'Notebook Lenovo IdeaPad Gaming 3 15IHU6 82K1015CUS i5-11300H GTX 1650 256GB SSD+960GB SSD 16GB 15.6″', brand:'lenovo', price: 202500, img: 'https://i.ibb.co/QbGF4VQ/lenovo-gaming-final-1.jpg'},
 ]
 
+products.map(product => {
+    html.innerHTML += `
+            <div class="product-card" id="product-${product.id}">
+                <img src="${product.img}" alt="${product.name}" role="product-image" aria-label="product-image" loading="lazy" class="product-img"/>
+                <div class="product-data-ctn">
+                    <div class="product-data">
+                        <h2 class="product-name">${product.name.toUpperCase()}</h2>
+                        <span class="product-price">${formatPrice(product.price)}</span>
+                    </div>
+                    <button class="primary-button" onclick="addToCart(${product.id})">Agregar al carrito</button>
+                </div>
+            </div>`
+})
+
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     html.innerHTML = '';
@@ -133,33 +147,30 @@ form.addEventListener("submit", (e) => {
         f.selected ? filterSelected = f : '';
     }
 
-    if(brandSelected.length < 1 || !filterSelected){
-        return alert("Debes completar el formulario para realizar una búsqueda.")
-    }
-    const array = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() && product))
+    const array = brandSelected?.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() && product))
 
-    const filterBrands = brandSelected.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() && product)).reduce((a,b) => [...a, ...b]);
+    const filterBrands = brandSelected?.map(brand => products.filter(product => product.brand.toUpperCase() === brand.toUpperCase() && product)).reduce((a,b) => [...a, ...b]);
 
     const filteredProducts = filterBrands.sort((a, b) => {
-        if(filterSelected.value === "menor-mayor"){
+        if(filterSelected?.value === "menor-mayor"){
             if(a.price < b.price) return -1
             if(a.price > b.price) return 1
             return 0
         }
 
-        if(filterSelected.value === "mayor-menor"){
+        if(filterSelected?.value === "mayor-menor"){
             if(a.price > b.price) return -1
             if(a.price < b.price) return 1
             return 0
         }
                 
-        if(filterSelected.value === "a-z"){
+        if(filterSelected?.value === "a-z"){
             if(a.name < b.name) return -1
             if(a.name > b.name) return 1
             return 0
         }
 
-        if(filterSelected.value === "z-a"){
+        if(filterSelected?.value === "z-a"){
             if(a.name > b.name) return -1
             if(a.name < b.name) return 1
             return 0
