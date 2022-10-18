@@ -7,6 +7,12 @@ const cartProductsContainer = document.querySelector("#cart-products-container")
 const cartProducts = document.querySelector("#cart-products")
 const cartTotal = document.querySelector("#cart-total")
 
+class LastProduct{
+    constructor(item){        
+        this.lastItem = item
+    }
+}
+
 // hook for calling products
 const fetchProducts = async () => {
     const response = await fetch("./api/products.json")
@@ -58,11 +64,13 @@ const productCheckout = (id) => {
     fetchProducts().then(products => {
         const acquiredProduct = products.find(product => product.id === id);
         const message = `¡Gracias por adquirir ${acquiredProduct.name} 🤑🔥!`
-    
+        const lastProduct = new LastProduct(acquiredProduct)
+
         createNotification(message)
     
         storedProducts = storedProducts.filter(product => product.id === id ? '' : product)
         localStorage.setItem("productsInCart", JSON.stringify(storedProducts))
+        localStorage.setItem("lastProduct", JSON.stringify(lastProduct))
     })
 }
 
